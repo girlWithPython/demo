@@ -1,10 +1,3 @@
-FROM golang as builder
-WORKDIR /src
-COPY src .
-RUN CGO_ENABLED=0 go build -o app
-#
-FROM scratch
-ADD ./html /html
-COPY --from=builder /src/app .
-ENTRYPOINT ["/app"]
+FROM busybox 
+CMD while true; do { echo -e 'HTTP/1.1 200 OK\n\n Version: 1.0.0'; } | nc -vlp 8080; done
 EXPOSE 8080
